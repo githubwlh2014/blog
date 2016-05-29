@@ -1,2 +1,3 @@
 baseurl: /blog
-pygments: true
+<code class="hljs http">markdown: kramdown
+highlighter: rouge</code>
