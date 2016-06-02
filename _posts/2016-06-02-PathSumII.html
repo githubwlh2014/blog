@@ -1,0 +1,44 @@
+---
+layout: default
+title: (leetcode113)Path Sum II
+---
+
+<h2>{{ page.title }}</h2>
+<p>利用先序遍历的思想，每次访问到一个节点时，把这个节点值存入List中，当访问到叶子节点时判断List中所有元素值和是否为sum
+，如果等于Sum，保存此路径，否则返回父节点</p>
+{% highlight ruby %} 
+public class PathSumII {
+	private List<List<Integer>> listSum=new ArrayList<List<Integer>>();
+    public void pathSum(TreeNode root, int sum,List<Integer> list) {
+        if(root.left==null&&root.right==null)
+        {
+        	if(sum-root.val==0)
+        	{
+        		list.add(root.val);
+        		listSum.add(new ArrayList<Integer>(list));
+        		list.remove(list.size()-1);		//不要忘记返回时删除这一节点值
+        	}
+        	return ;
+        }
+        list.add(root.val);
+        sum-=root.val;
+        if(root.left!=null)
+        	pathSum(root.left,sum,list);
+        if(root.right!=null)
+        	pathSum(root.right,sum,list);
+        list.remove(list.size()-1);		//不要忘记返回时删除这一节点值
+        return;
+    }
+	
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        listSum.clear();
+        if(root==null)
+        	return listSum;
+        List<Integer> list=new ArrayList<Integer>();
+        pathSum(root,sum,list);
+        return listSum;
+    }
+    
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
