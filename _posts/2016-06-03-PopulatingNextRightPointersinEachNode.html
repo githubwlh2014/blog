@@ -1,0 +1,40 @@
+---
+layout: default
+title: (leetcode116)Populating Next Right Pointers in Each Node
+---
+
+<h2>{{ page.title }}</h2>
+<p>利用二叉树层次遍历的思想进行求解</p>
+{% highlight ruby %} 
+
+    public void connect(TreeLinkNode root) {
+    	if(root==null)
+    		return ;
+        Deque queue=new LinkedList();
+        queue.offer(root);
+        queue.offer("#");
+        while(!queue.isEmpty())
+        {
+        	TreeLinkNode pre=(TreeLinkNode)queue.poll();
+        	if(pre.left!=null)
+        		queue.offer(pre.left);
+        	if(pre.right!=null)
+        		queue.offer(pre.right);
+        	while(!(queue.peek() instanceof String))
+        	{
+        		pre.next=(TreeLinkNode)queue.peek();
+        		pre=(TreeLinkNode)queue.poll();
+            	if(pre.left!=null)
+            		queue.offer(pre.left);
+            	if(pre.right!=null)
+            		queue.offer(pre.right);
+        	}
+        	pre.next=null;
+        	queue.poll();
+        	if(!queue.isEmpty())
+        		queue.offer("#");
+        }
+    }
+
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
