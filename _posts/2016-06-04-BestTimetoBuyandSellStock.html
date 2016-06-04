@@ -1,0 +1,31 @@
+---
+layout: default
+title: (leetcode121)Best Time to Buy and Sell Stock
+---
+
+<h2>{{ page.title }}</h2>
+<p>采用动态规划的思想，可以假设将数组分为几个部分，每部分的第1个元素是最小的，但它又大于下一部分的第一个元素，每部分的最大利润即为每一部分其他元素与第一个元素的最大差值，然后各个部分最大差值的最大值即为所求</p>
+{% highlight ruby %} 
+public class Solution {
+    public int maxProfit(int[] prices) {
+        
+    	int maxProfit=0;
+    	int start=0;
+    	for(int i=1;i<prices.length;i++)
+    	{
+    		if(prices[i]<prices[start])		//当元素price[i]小于上一部分的第一个元素price[start]时，更新start的值，开始计算下一部分
+    		{
+    			start=i;
+    			continue;
+    		}
+    		else
+    		{
+    			if(prices[i]-prices[start]>maxProfit)		//求最大值
+    				maxProfit=prices[i]-prices[start];
+    		}
+    	}
+    	return maxProfit;	
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
