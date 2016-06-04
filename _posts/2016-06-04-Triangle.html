@@ -1,0 +1,63 @@
+---
+layout: default
+title: (leetcode120)Triangle
+---
+
+<h2>{{ page.title }}</h2>
+<p>此题做时想到第一种做法是用递归的思想回朔法把全部的情况都计算一遍，选择最小的结果超时，所有想到第二种解法
+第二种解法是动态规划的思想，用一个n维数组作为辅助空间，具体解法如下</p>
+{% highlight ruby %} 
+解法一：
+public class Solution {
+
+	int minSum=Integer.MAX_VALUE;
+    public void minimumTotal(List<List<Integer>> triangle,int layer,int index,int sum) {
+    	if(triangle.size()==layer)
+    	{
+    		if(sum<minSum)
+    			minSum=sum;   
+    		return ;
+    	}
+
+    	minimumTotal(triangle,layer+1,index,sum+triangle.get(layer).get(index));
+    	minimumTotal(triangle,layer+1,index+1,sum+triangle.get(layer).get(index));
+    }
+	
+    public int minimumTotal(List<List<Integer>> triangle) {
+        minSum=Integer.MAX_VALUE;
+        minimumTotal(triangle,0,0,0);
+        return minSum;
+    }
+}
+
+解法二：
+public class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+    	if(triangle==null)
+    		return 0;
+    	int[] nums=new int[triangle.size()]; 
+    	int min=Integer.MAX_VALUE;
+    	for(List<Integer> list:triangle)
+    	{
+    		int i=0;
+    		int pre=Integer.MAX_VALUE;
+    		min=Integer.MAX_VALUE;
+    		for(Integer m:list)
+    		{
+    			int tmpValue=nums[i];
+    			if(i!=list.size()-1||list.size()==1)			//当i不为此层最后一个或是需要选择nums[i-1]与nums[i]的最小值加m
+    				nums[i]=Math.min(pre, nums[i])+m;
+    			else
+    				nums[i]=pre+m;								//当i为最后一个时直接让nums[i-1]加m		
+    			pre=tmpValue;
+    			if(min>nums[i])
+    				min=nums[i];								//求最小值
+    			i++;
+    		}    		
+    	}
+    	return min;
+    }
+}
+
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
