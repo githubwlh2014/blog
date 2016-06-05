@@ -1,0 +1,30 @@
+---
+layout: default
+title: (leetcode141)Linked List Cycle
+---
+
+<h2>{{ page.title }}</h2>
+<p>两别用两个引用，一个每次走两步，另外一个每次走一步，如果两个能相遇说明有环，否则没有</p>
+{% highlight ruby %} 
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+    	if(head==null)
+    		return false;
+        ListNode front=head;
+        do
+        {
+        	if(front.next!=null&&front.next.next!=null)        		
+        		front=front.next.next;
+        	else
+        		return false;
+        	if(head.next!=null)
+        		head=head.next;
+        	else
+        		return false;
+        }
+        while(front!=head);
+        return true;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
