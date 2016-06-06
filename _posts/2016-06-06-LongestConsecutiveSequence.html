@@ -1,0 +1,37 @@
+---
+layout: default
+title: (leetcode128)Longest Consecutive Sequence
+---
+
+<h2>{{ page.title }}</h2>
+<p>利用SortedSet排序的特性，可以将数组中的元素放入SortedSet，然后再次访问SortedSet进行统计最长连续子序列</p>
+{% highlight ruby %} 
+public class Solution {
+	public int longestConsecutive(int[] nums) {
+		if(nums==null||nums.length==0)
+			return 0;
+        SortedSet<Integer> ss=new TreeSet<Integer>();
+        for(int e:nums)
+        	ss.add(e);
+        int pre=ss.first()-1;
+        int max=1;
+        int count=0;
+        for(int e:ss)
+        {
+        	if(e==pre+1)
+        		count++;
+        	else
+        	{
+        		if(max<count)
+        			max=count;
+        		count=1;        		
+        	}
+        	pre=e;
+        }
+		if(max<count)
+			max=count;
+		return max;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
