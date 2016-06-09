@@ -1,0 +1,50 @@
+---
+layout: default
+title: (leetcode135)Candy
+---
+
+<h2>{{ page.title }}</h2>
+<p>贪心算法，申请辅助数组ratingBack,首先逆序遍历数组如果ratings[i]>ratings[i+1],ratingBack[i]+=ratingBack[i+1],否则ratingBack[i]=1.
+再正序遍历数组选局部最优解。(http://www.cnblogs.com/felixfang/p/3620086.html解法更好)</p>
+{% highlight ruby %} 
+public class Solution {
+    public int candy(int[] ratings) {
+    	if(ratings==null||ratings.length==0)
+    		return 0;
+    	int[] ratingBack=new int[ratings.length];
+    	int pre=Integer.MAX_VALUE;
+    	int tag=1;
+    	for(int i=ratings.length-1;i>=0;i--)
+    	{
+    		if(pre>=ratings[i])
+    		{
+    			ratingBack[i]=(tag=1);    			
+    		}
+
+    		else
+    		{
+    			tag++;
+    			ratingBack[i]=tag;
+    		}
+    		pre=ratings[i];
+    	}
+    	pre=Integer.MAX_VALUE;
+    	tag=1;
+    	int sum=0;
+    	for(int i=0;i<ratings.length;i++)
+    	{
+    		if(pre>=ratings[i])
+    		{
+    			tag=ratingBack[i];
+    		}
+    		else {
+    			tag=Math.max(++tag, ratingBack[i]);
+    		}
+			sum+=tag;
+			pre=ratings[i];
+    	}
+    	return sum;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
