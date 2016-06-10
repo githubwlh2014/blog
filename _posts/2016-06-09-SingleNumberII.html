@@ -1,0 +1,24 @@
+---
+layout: default
+title: (leetcode137)Single Number II
+---
+
+<h2>{{ page.title }}</h2>
+<p>可以用辅助变量进行计算，one统计了在所有数字在某位出现1的个数，为1、4、7、……，two统计了在所有数字在某位出现1的个数为2、5、8……，three统计了在所有数字在某位出现1的个数为0、3、6、9……。最后one代表即是出现了一次的数字</p>
+{% highlight ruby %} 
+public class Solution {
+    public int singleNumber(int[] nums) {
+    	int one=0,two=0,three=0,tmp0=0,tmp1=0;
+        for(int i=0;i<nums.length;i++)
+        {
+        	tmp0=nums[i]^((tmp1=nums[i]&one)|(three=nums[i]&two));
+        	two=three^two;
+        	two=two|tmp1;
+        	one=(tmp0|(one^tmp1));
+        	
+        }
+        return one;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
