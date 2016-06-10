@@ -1,0 +1,53 @@
+---
+layout: default
+title: (leetcode140)Word Break II
+---
+
+<h2>{{ page.title }}</h2>
+<p>根据word break的结果，我们可以采用深度优先遍历（递归）的方法，来进行解题。不可直接使用深度优先遍历算法这样会超时</p>
+{% highlight ruby %} 
+public class Solution {
+	private List<String> list;	
+    public void wordBreak(String s,int start,StringBuilder sb,Set<String> wordDict,boolean[] tag) {
+    	if(start==s.length())
+    	{
+    		list.add(sb.substring(1,sb.length()));
+    		return ;
+    	}    	
+    	sb.append(' ');
+        for(int i=start;i<s.length();i++)
+        {
+        	if(tag[i+1]&&wordDict.contains(s.substring(start, i+1)))
+        	{
+        		int len=sb.length();
+        		sb.append(s.substring(start, i+1));
+	        	wordBreak(s,i+1,sb,wordDict,tag);
+	        	sb.delete(len, sb.length());        		
+        	}
+        }
+    }
+	
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+    	list=new ArrayList<String>();
+    	if(s==null||s.length()==0)
+    		return list;
+        boolean[] tag=new boolean[s.length()+1];
+        tag[s.length()]=true;
+        for(int i=s.length()-1;i>=0;i--)
+        {
+        	for(int j=i;j<s.length();j++)
+        	{
+        		if(tag[j+1]&&wordDict.contains(s.substring(i, j+1)))
+        		{
+        				tag[i]=true; 
+        				break;
+        		}
+        	}
+        }
+    	StringBuilder sb=new StringBuilder();
+    	wordBreak(s,0,sb,wordDict,tag);
+    	return list;    	
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
