@@ -1,0 +1,30 @@
+---
+layout: default
+title: (leetcode139)Word Break
+---
+
+<h2>{{ page.title }}</h2>
+<p>采用动态规划的思想，申请辅助数组tag，tag[i]表示从字符串s的i位置的字符到最后字符构成的字符串是否是word break</p>
+{% highlight ruby %} 
+public class Solution {
+    public boolean wordBreak(String s, Set<String> wordDict) {
+    	if(s==null)
+    		return false;
+        boolean[] tag=new boolean[s.length()+1];
+        tag[s.length()]=true;
+        for(int i=s.length()-1;i>=0;i--)
+        {
+        	for(int j=i;j<s.length();j++)
+        	{
+        		if(tag[j+1]&&wordDict.contains(s.substring(i, j+1)))
+        		{
+        				tag[i]=true; 
+        				break;
+        		}
+        	}
+        }
+        return tag[0];
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
