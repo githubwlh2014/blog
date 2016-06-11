@@ -1,0 +1,40 @@
+---
+layout: default
+title: (leetcode150)Evaluate Reverse Polish Notation
+---
+
+<h2>{{ page.title }}</h2>
+<p>后缀式很简单</p>
+{% highlight ruby %} 
+public class Solution {
+	private int cal(int a,int b,String c)
+	{
+		
+		switch(c)
+		{
+			case "+":return (a+b);
+			case "-":return (b-a);
+			case "/":return (b/a);
+			case "*":return (a*b);
+		}
+		return 0;
+	}
+
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> stack=new LinkedList<>();
+        for(int i=0;i<tokens.length;i++)
+        {
+        	if(!tokens[i].equals("+")&&!tokens[i].equals("-")&&!tokens[i].equals("/")&&!tokens[i].equals("*"))
+        	{
+        		stack.push(Integer.parseInt(tokens[i]));
+        	}else
+        	{
+        		int result=cal(stack.pop(),stack.pop(),tokens[i]);
+        		stack.push(result);
+        	}
+        }
+        return stack.pop();
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

@@ -1,0 +1,43 @@
+---
+layout: default
+title: (leetcode146)LRU Cache
+---
+
+<h2>{{ page.title }}</h2>
+<p>学习LinkedHashMap的实现，将其修改即可实现LRU Cache算法</p>
+{% highlight ruby %} 
+public class LRUCache {
+	private LinkedHashMap<Integer,Integer> map=null;
+	
+    public LRUCache(final int capacity) {
+    	
+        map=new LinkedHashMap<Integer,Integer>(){
+        	
+        	int maxCapacity=capacity;
+            protected boolean removeEldestEntry(Map.Entry eldest) {
+                return size() > maxCapacity;
+             }
+        };
+    }
+    
+    public int get(int key) {
+    	
+        if(map.containsKey(key))
+        {
+        	Integer tmp=map.get(key);
+        	map.remove(key);
+        	map.put(key,tmp);
+        	return map.get(key);
+        }
+        else return -1;
+
+    }
+    
+    public void set(int key, int value) {
+    	if(map.containsKey(key))
+    		map.remove((Integer)key);
+       	map.put(key, value);
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

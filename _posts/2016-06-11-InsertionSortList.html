@@ -1,0 +1,46 @@
+---
+layout: default
+title: (leetcode147)Insertion Sort List
+---
+
+<h2>{{ page.title }}</h2>
+<p>没有什么说的，代码写起来很恶心</p>
+{% highlight ruby %} 
+public class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode pre=new ListNode(0);
+        pre.next=head;
+        head=pre;
+        ListNode indexNode=head.next;
+        while(indexNode.next!=null)
+        {
+        	if(head.next.val>indexNode.next.val)
+        	{
+    			ListNode tmpNode=indexNode.next;
+    			indexNode.next=indexNode.next.next;
+    			tmpNode.next=head.next;
+    			head.next=tmpNode;
+    			continue;
+        	}
+        	pre=head.next;
+        	while(pre!=indexNode)
+        	{
+        		if((pre.val<=indexNode.next.val)&&(pre.next.val>indexNode.next.val))
+        		{
+        			ListNode tmpNode=indexNode.next;
+        			indexNode.next=indexNode.next.next;
+        			tmpNode.next=pre.next;
+        			pre.next=tmpNode;
+        			break;
+        		}
+        		pre=pre.next;
+        	}
+        	if(pre==indexNode)
+        		indexNode=indexNode.next;
+        }
+        return head.next;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
