@@ -1,0 +1,41 @@
+---
+layout: default
+title: (leetcode173)Binary Search Tree Iterator
+---
+
+<h2>{{ page.title }}</h2>
+<p>先用递归的方法中序遍历二叉搜索树将结点值存入链表中，然后使用链表的迭代器代替所求迭代器</p>
+{% highlight ruby %} 
+class BSTIterator {
+	
+	private Iterator<Integer> iter;
+	
+	public void inorderTravel(TreeNode root,List<Integer> list)
+	{
+		if(root.left!=null)
+			inorderTravel(root.left,list);
+		list.add(root.val);
+		if(root.right!=null)
+			inorderTravel(root.right,list);
+	}
+
+    public BSTIterator(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        if(root!=null)
+        	inorderTravel(root,list);
+        iter=list.iterator();
+        
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return iter.hasNext();
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        return iter.next();
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
