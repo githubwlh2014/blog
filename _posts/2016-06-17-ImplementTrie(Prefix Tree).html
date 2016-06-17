@@ -1,0 +1,88 @@
+---
+layout: default
+title: (leetcode208)Implement Trie (Prefix Tree)
+---
+
+<h2>{{ page.title }}</h2>
+<p>Trie树的实现</p>
+{% highlight ruby %} 
+public class Trie {
+	
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    public void insert(String word) {
+        insert(root,word,0);
+    }
+    
+    private void insert(TrieNode root,String word,int d)
+    {
+    	if(d==word.length())
+    	{
+    		root.val="yes";  
+    		return ;
+    	}
+
+    	if(root.next[word.charAt(d)-'a']==null)
+    		root.next[word.charAt(d)-'a']=new TrieNode(word.charAt(d));
+    	insert(root.next[word.charAt(d)-'a'],word,d+1);
+    }
+
+    // Returns if the word is in the trie.
+    public boolean search(String word) {
+        return search(root,word,0);
+    }
+    
+    public boolean search(TrieNode root,String word,int d)
+    {
+    	//当遍历路径等于字符串长度，判断是否存在指定字符串
+    	if(d==word.length())
+    	{
+    		if(root.val!=null)
+    			return true;
+    		else return false;    		
+    	}  	
+    		
+    	if(root.next[word.charAt(d)-'a']!=null)
+    		return search(root.next[word.charAt(d)-'a'],word,d+1);
+    	else
+    		return false;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    public boolean startsWith(String prefix) {
+        return startsWith(root,prefix,0);
+    }
+    
+    public boolean startsWith(TrieNode root,String word,int d) {
+    	if(d==word.length())
+    		return true;
+    		
+    	if(root.next[word.charAt(d)-'a']!=null)
+    		return startsWith(root.next[word.charAt(d)-'a'],word,d+1);
+    	else
+    		return false;
+    }
+
+}
+
+class TrieNode {
+    // Initialize your data structure here.
+	TrieNode[] next=new TrieNode[26];
+	char node='#';
+	Object val=null;
+    public TrieNode() {
+        
+    }
+    public TrieNode(char node)
+    {
+    	this.node=node;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
