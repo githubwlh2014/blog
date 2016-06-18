@@ -1,0 +1,31 @@
+---
+layout: default
+title: (leetcode215)Kth Largest Element in an Array
+---
+
+<h2>{{ page.title }}</h2>
+<p>使用优先队列，优先队列是使用小顶堆实现的</p>
+{% highlight ruby %} 
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+    	
+    	Queue<Integer> queue=new PriorityQueue<Integer>(k);
+    	for(int i=0;i<nums.length;i++)
+    	{
+    		if(i<k)
+    		{
+    			queue.offer(nums[i]);    
+    			continue;
+    		}
+    		if(queue.peek()<nums[i])
+    		{
+    			queue.poll();
+    			queue.offer(nums[i]);
+    		}    		
+    	}
+    	return queue.peek();
+        
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
