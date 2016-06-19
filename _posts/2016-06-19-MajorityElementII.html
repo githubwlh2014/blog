@@ -1,0 +1,29 @@
+---
+layout: default
+title: (leetcode229)Majority Element II
+---
+
+<h2>{{ page.title }}</h2>
+<p>遍历一遍数组用HashMap存储每一个元素的数量，最后找出出现次数大于n/3的（其实本题主要考的是摩尔投票法的使用）</p>
+{% highlight ruby %} 
+public class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        List<Integer> list=new ArrayList<>();
+        if(nums==null||nums.length==0)
+        	return list;
+        Map<Integer,Integer> map=new HashMap<Integer,Integer>();
+        for(int val:nums)
+        {
+        	if(!map.containsKey(val))
+        		map.put(val, 0); 
+        	map.put(val, map.get(val)+1);
+        }
+        int bound=nums.length/3;
+        for(Integer val:map.keySet())
+        	if(map.get(val)>bound)
+        		list.add(val);
+        return list;    
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

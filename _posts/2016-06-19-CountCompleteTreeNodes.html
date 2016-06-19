@@ -1,0 +1,47 @@
+---
+layout: default
+title: (leetcode222)Count Complete Tree Nodes
+---
+
+<h2>{{ page.title }}</h2>
+<p>如果全部遍历一遍会超时，要用到满二叉树树高与结点数量的关系</p>
+{% highlight ruby %} 
+public class Solution {
+	private int getLeftHeight(TreeNode root)
+	{
+		int h=0;
+		while(root!=null)
+		{
+			h++;
+			root=root.left;
+		}
+		return h;
+	}
+	
+	private int getRightHeight(TreeNode root)
+	{
+		int h=0;
+		while(root!=null)
+		{
+			h++;
+			root=root.right;
+		}
+		return h;
+	}
+	
+    public int countNodes(TreeNode root) {
+    	if(root==null)
+    		return 0;        
+    	int l=getLeftHeight(root.left);
+    	int r=getRightHeight(root.right);
+    	
+    	if(l==r)
+    	{
+    		return (1<<(l+1))-1;
+    	}
+    	else
+    		return countNodes(root.left)+countNodes(root.right)+1;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
