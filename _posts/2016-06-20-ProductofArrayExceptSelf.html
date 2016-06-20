@@ -1,0 +1,38 @@
+---
+layout: default
+title: (leetcode238)Product of Array Except Self
+---
+
+<h2>{{ page.title }}</h2>
+<p>给定一个数组，求一个数组其每个位置上值为所给定数组在对应位置除外其他所有元素的乘积</p>
+{% highlight ruby %} 
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+    	if(nums==null||nums.length==1)
+    		return nums;
+        int[] ass1=new int[nums.length];
+        int[] ass2=new int[nums.length];
+        int n=nums.length-1;
+        for(int i=0;i<nums.length-1;i++)
+        {
+        	if(i==0)
+        	{
+        		ass1[i]=nums[i];
+        		ass2[n-i]=nums[n-i];
+        		continue;
+        	}
+        	
+        	ass1[i]=nums[i]*ass1[i-1];
+        	ass2[n-i]=nums[n-i]*ass2[n-i+1];
+        }
+        nums[0]=ass2[1];
+        nums[nums.length-1]=ass1[nums.length-2];
+        for(int i=1;i<nums.length-1;i++)
+        {
+        	nums[i]=ass1[i-1]*ass2[i+1];
+        }
+        return nums;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
