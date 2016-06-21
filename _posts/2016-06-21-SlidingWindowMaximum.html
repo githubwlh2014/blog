@@ -1,0 +1,45 @@
+---
+layout: default
+title: (leetcode239)Sliding Window Maximum
+---
+
+<h2>{{ page.title }}</h2>
+<p>滑动窗口内的最大值，可使用一个大顶堆作为辅助来对每个窗口元素进行取最大值（可用另外一种辅助队列的方法，效率比较高，但实现起来比较麻烦）</p>
+{% highlight ruby %} 
+public class Solution {
+	static class IntegerCom implements Comparator<Integer>
+	{
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			// TODO Auto-generated method stub
+			return o1.compareTo(o2)>0?-1:o1.compareTo(o2)<0?1:0;
+		}
+		
+	}
+	
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+    	if(nums==null)
+    		return null;
+    	if(nums.length==0)
+    		return new int[0];
+        Queue<Integer> queue=new PriorityQueue<Integer>(k,new IntegerCom());
+        int[] max=new int[nums.length+1-k];
+        int i=0;
+        for(;i<nums.length;i++)
+        {
+        	if(i<k)
+        	{
+        		queue.offer(nums[i]);
+        		continue;
+        	}
+        	max[i-k]=queue.peek();
+        	queue.remove(nums[i-k]);
+        	queue.offer(nums[i]);
+        }
+        max[i-k]=queue.peek();
+        return max;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

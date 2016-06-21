@@ -1,0 +1,35 @@
+---
+layout: default
+title: (leetcode260)Single Number III
+---
+
+<h2>{{ page.title }}</h2>
+<p>先遍历所有元素进行异或，得到即是两个只出现一次的元素的异或的结果，根据这个结果可以得到这两个元素在某位上一个为1另一个不为1，最后根据这个特性将这两个元素划分到不同组中进行异或即可</p>
+{% highlight ruby %} 
+public class Solution {
+    public int[] singleNumber(int[] nums) {
+    	if(nums==null||nums.length<2)
+    		return nums;
+    	int result1=0,result2=0;
+        for(int i=0;i<nums.length;i++)
+        {
+        	result1=result1^nums[i];
+        }
+        int index=1;
+        while((result1&index)==0)
+        	index=index<<1;
+        result1=0;
+        result2=0;
+        for(int i=0;i<nums.length;i++)
+        {
+        	if((nums[i]&index)!=0)
+        		result1=result1^nums[i];
+        	else
+        		result2=result2^nums[i];
+        }
+        int[] two={result1,result2};
+        return two;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
