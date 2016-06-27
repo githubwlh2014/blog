@@ -1,0 +1,54 @@
+---
+layout: default
+title: (leetcode284)Peeking Iterator
+---
+
+<h2>{{ page.title }}</h2>
+<p>实现带有peek()函数的迭代器</p>
+{% highlight ruby %} 
+class PeekingIterator implements Iterator<Integer> {
+	
+	private Iterator<Integer> iterator=null;
+	private boolean tag=false;
+	private int tmp=0;
+	public PeekingIterator(Iterator<Integer> iterator) {
+	    // initialize any member here.
+	    this.iterator=iterator;
+	}
+
+ // Returns the next element in the iteration without advancing the iterator.
+	public Integer peek() {
+		if(!tag)
+		{
+			tmp=iterator.next();
+			tag=true;
+		}
+		return tmp;
+	}
+
+	// hasNext() and next() should behave the same as in the Iterator interface.
+	// Override them if needed.
+	@Override
+	public Integer next() {
+	    if(!tag)
+	    	return iterator.next();
+	    else
+	    {
+	    	tag=false;
+	    	return tmp;
+	    }
+	}
+
+	@Override
+	public boolean hasNext() {
+	    return (iterator.hasNext()||tag);
+	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+		
+	}
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
