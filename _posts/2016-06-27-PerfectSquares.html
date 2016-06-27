@@ -1,0 +1,34 @@
+---
+layout: default
+title: (leetcode279)Perfect Squares
+---
+
+<h2>{{ page.title }}</h2>
+<p>使用动态规划方法进行求解，nums[i]表示数字i所需要的PerfectSquares</p>
+{% highlight ruby %} 
+public class Solution {
+	//使用动态规划方法进行求解，nums[i]表示数字i所需要的PerfectSquares
+    public int numSquares(int n) {
+    	if(n==1)
+    		return 1;
+        int[] nums=new int[n+1];
+        int tmp=0;
+        for(int i=0;(tmp=i*i)<=n;i++)
+        	nums[tmp]=1;
+        for(int i=2;i<=n;i++)
+        {
+        	if(nums[i]==1)
+        		continue;
+        	int min=Integer.MAX_VALUE;
+        	for(int j=1;(tmp=j*j)<i;j++)
+        	{
+        		if(nums[i-tmp]+1<min)
+        			min=nums[i-tmp]+1;
+        	}
+        	nums[i]=min;
+        }
+        return nums[n];
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
