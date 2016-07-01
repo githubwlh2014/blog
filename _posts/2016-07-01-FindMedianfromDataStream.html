@@ -1,0 +1,66 @@
+---
+layout: default
+title: (leetcode295)Find Median from Data Stream
+---
+
+<h2>{{ page.title }}</h2>
+<p>利用一个大顶堆和一个小顶堆来存储已经到达的元素</p>
+{% highlight ruby %} 
+public class MedianFinder {
+
+	class IntegerCompartor implements Comparator<Integer>{
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			// TODO Auto-generated method stub
+			int result=0;
+			return (result=o1.compareTo(o2))>0?-1:(result==0?0:1);
+		}
+		
+	}
+	
+	Queue<Integer> lowQueue=new PriorityQueue<Integer>(16,new IntegerCompartor());
+	Queue<Integer> highQueue=new PriorityQueue<Integer>();
+
+    // Adds a number into the data structure.
+    public void addNum(int num) {
+        if(lowQueue.size()==highQueue.size())
+        {
+        	if(lowQueue.size()==0)
+        		lowQueue.add(num);
+        	else if(highQueue.peek()<num)
+        	{
+        		highQueue.add(num);
+        		lowQueue.add(highQueue.poll());
+        	}
+        	else
+        	{
+        		lowQueue.add(num);
+        	}
+        		
+        }
+        else
+        {
+        	if(lowQueue.peek()>num)
+        	{
+        		lowQueue.add(num);
+        		highQueue.add(lowQueue.poll());
+        	}
+        	else
+        	{
+        		highQueue.add(num);
+        	}
+        	
+        }
+    }
+
+    // Returns the median of current data stream
+    public double findMedian() {
+        if(lowQueue.size()==highQueue.size())
+        	return ((double)lowQueue.peek()+(double)highQueue.peek())/2;
+        else
+        	return lowQueue.peek();
+    }
+};
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
