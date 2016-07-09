@@ -1,0 +1,50 @@
+---
+layout: default
+title: (leetcode310)Minimum Height Trees
+---
+
+<h2>{{ page.title }}</h2>
+<p>类似于拓扑排序，逐层去掉叶子结点，向根结点进行逼近</p>
+{% highlight ruby %} 
+public class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    	if(n<1)
+    		return new ArrayList<Integer>();
+    	if(n==1)
+    		return new ArrayList<Integer>(Arrays.asList(0));
+        List<Set<Integer>> list=new ArrayList<>();
+        for(int i=0;i<n;i++)
+        	list.add(new HashSet<Integer>());
+        for(int[] val:edges)
+        {
+        	list.get(val[0]).add(val[1]);
+        	list.get(val[1]).add(val[0]);
+        }
+        Queue<Integer> leaves=new LinkedList<>();
+        for(int i=0;i<list.size();i++)
+        {
+        	if(list.get(i).size()==1)
+        		leaves.offer(i);
+        }
+        
+        while(n>2)
+        {
+        	n-=leaves.size();
+        	Queue<Integer> newLeaves=new LinkedList<Integer>();
+        	while(leaves.size()>0)
+        	{
+            	int i=leaves.poll();
+            	int j=list.get(i).iterator().next();
+            	list.get(j).remove(i);
+            	if(list.get(j).size()==1)
+            		newLeaves.offer(j);
+        	}
+        	leaves=newLeaves;
+        }
+        
+        return (List<Integer>)leaves;
+        
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
