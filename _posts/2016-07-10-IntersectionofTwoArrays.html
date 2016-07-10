@@ -1,0 +1,42 @@
+---
+layout: default
+title: (leetcode349)Intersection of Two Arrays
+---
+
+<h2>{{ page.title }}</h2>
+<p>先排序，然后利用归并排序的思想进行求解</p>
+{% highlight ruby %} 
+public class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+    	if(nums1==null||nums2==null)
+    		return null;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        Set<Integer> set=new HashSet<>();
+        int i=0,j=0;
+        while(i<nums1.length&&j<nums2.length)
+        {
+        	if(nums1[i]<nums2[j])
+        		i++;
+        	else if(nums1[i]==nums2[j])
+        	{
+        		set.add(nums1[i]);
+        		i++;
+        	}
+        	else
+        		j++;
+        }
+        
+        int[] nums3=new int[set.size()];
+        i=0;
+        for(int val:set)
+        {
+        	nums3[i]=val;
+        	i++;
+        }
+
+        return nums3;
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
