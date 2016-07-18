@@ -1,0 +1,58 @@
+---
+layout: default
+title: (leetcode313)Super Ugly Number
+---
+
+<h2>{{ page.title }}</h2>
+<p>与Ugly NumberII思想一致，可以用小顶堆减小查找最小数的时间复杂度</p>
+{% highlight ruby %} 
+public class Solution {
+	static class Pair{
+		
+		int index=0;
+		int prime=0;
+		int uglyNumber=0;
+		public Pair(int index,int prime,int uglyNumber){
+			this.index=index;
+			this.prime=prime;
+			this.uglyNumber=uglyNumber;
+		}
+	}
+	
+    public int nthSuperUglyNumber(int n, int[] primes) {
+    	if(n<1)
+    		return -1;
+    	if(n==1)
+    		return 1;
+        
+    	PriorityQueue<Pair> heap=new PriorityQueue<>(primes.length,new Comparator<Pair>(){
+
+			@Override
+			public int compare(Pair o1, Pair o2) {
+				// TODO Auto-generated method stub
+				return o1.uglyNumber>o2.uglyNumber?1:(o1.uglyNumber==o2.uglyNumber?0:-1);
+			}
+    		
+    	});
+    	for(int val:primes)
+    		heap.add(new Pair(1,val,val));
+    	int[] tmp=new int[n+1];
+    	for(int i=2;i<=n;i++)
+    	{
+    		while(heap.peek().uglyNumber<=tmp[i-1])
+    		{
+    			Pair tmpPair=heap.poll();
+    			tmpPair.uglyNumber=tmp[(++tmpPair.index)]*tmpPair.prime;
+    			heap.add(tmpPair);
+    		}
+			Pair tmpPair=heap.poll();
+    		tmp[i]=tmpPair.uglyNumber;
+			tmpPair.uglyNumber=tmp[(++tmpPair.index)]*tmpPair.prime;
+			heap.add(tmpPair);
+
+    	}
+    	return tmp[n];
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
