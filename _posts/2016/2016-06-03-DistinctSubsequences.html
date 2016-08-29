@@ -1,0 +1,57 @@
+---
+layout: default
+title: (leetcode115)Distinct Subsequences
+---
+
+<h2>{{ page.title }}</h2>
+<p>此题有两种解法，第一种是递归的思想，第i层递归在s中寻找与t[i]相同s中的字符（时间超时）；
+第二种解法是利用动态规划的思想，nums[i][j]表示在s中前j个字符构成的字符串中有多少个sequence与t前i个字符构成的字符串相同</p>
+{% highlight ruby %} 
+解法一：
+
+public class Solution {
+	int count=0;
+    public void numDistinct(String s,int sk,String t,int tk) {
+    	if(tk>=t.length())
+    	{
+    		count++;
+    		return ;
+    	}
+        for(int i=sk;i<s.length()-(t.length()-tk-1);i++)
+        {
+        	if(s.charAt(i)==t.charAt(tk))
+        		numDistinct(s,i+1,t,tk+1);
+        }
+    }
+	
+    public int numDistinct(String s, String t) {
+    	count=0;
+    	if(t==null||s==null)
+    		return count;
+    	
+        numDistinct(s,0,t,0);
+        return count;
+    }
+}
+
+解法二：
+
+public class Solution {
+    public int numDistinct(String s, String t) {
+    	
+        int[][] nums=new int[t.length()+1][s.length()+1];
+        for(int i=0;i<=s.length();i++)						//当t中有零个元素时，无论s中有几个元素都可以构成t所以全部幅值为1
+        	nums[0][i]=1;
+        for(int i=1;i<=t.length();i++)
+        	for(int j=i;j<=s.length();j++)
+        	{
+        		if(t.charAt(i-1)==s.charAt(j-1))			//当t中第i个元素与s中第j个元素相同时，可知这时总共有nums[i-1][j-1]对subsequence，
+        																//当不相同时有nums[i][j-1]对sequence
+        			nums[i][j]+=nums[i-1][j-1];
+        		nums[i][j]+=nums[i][j-1];	
+        	}
+        return nums[t.length()][s.length()];
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

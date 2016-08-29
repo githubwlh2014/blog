@@ -1,0 +1,33 @@
+---
+layout: default
+title: (leetcode220)Contains Duplicate III
+---
+
+<h2>{{ page.title }}</h2>
+<p>注意PriorityQueue的使用</p>
+{% highlight ruby %} 
+public class Solution {
+    public static boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums == null || nums.length == 0 || k <= 0) {
+            return false;
+        }
+
+        final TreeSet<Long> values = new TreeSet<>();
+        for (int ind = 0; ind < nums.length; ind++) {
+
+            final Long floor = values.floor((long)nums[ind] + t);
+            if ((floor != null && floor >= nums[ind] - t)) {
+                return true;
+            }
+
+            values.add((long)nums[ind]);
+            if (ind >= k) {
+                values.remove((long)nums[ind - k]);
+            }
+        }
+
+        return false;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

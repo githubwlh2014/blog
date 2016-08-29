@@ -1,0 +1,49 @@
+---
+layout: default
+title: (leetcode143)Reorder List
+---
+
+<h2>{{ page.title }}</h2>
+<p>先找到后半部分的开始节点，然后翻转后半部分的链表，然后与前半部分进行合并</p>
+{% highlight ruby %} 
+public class Solution {
+	public ListNode reverseList(ListNode head) {
+	    ListNode prev = null;
+	    while (head != null) {
+	        ListNode temp = head.next;
+	        head.next = prev;
+	        prev = head;
+	        head = temp;
+	    }
+	    return prev;
+	}
+	
+    public void reorderList(ListNode head) {
+    	if(head==null)
+    		return ;
+    	
+        ListNode pre=head,back=head,tmp=null;
+        while(back!=null)
+        {
+        	if(back.next!=null)
+        		back=back.next.next;
+        	else
+        		back=back.next;
+        	tmp=pre;
+        	pre=pre.next;
+        }
+        back=reverseList(pre);
+        tmp.next=null;
+        pre=head;
+        while(back!=null)
+        {
+        	tmp=back.next;
+        	back.next=pre.next;
+        	pre.next=back;
+        	pre=pre.next.next;
+        	back=tmp;        	
+        }     
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

@@ -1,0 +1,29 @@
+---
+layout: default
+title: (leetcode134)Gas Station
+---
+
+<h2>{{ page.title }}</h2>
+<p>total表示当能继续走下去时还需要的汽油量，tank表示还有多少油，start表示开始行走的加油站位置</p>
+{% highlight ruby %} 
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+    	if(gas==null||cost==null)
+    		return -1;
+    	if(gas.length==0||cost.length==0)
+    		return -1;
+    	int tank=0,total=0,start=0;
+    	for(int i=0;i<gas.length;i++)
+    	{
+    		if((tank=tank+gas[i]-cost[i])<0)
+    		{
+    			start=i+1;
+    			total+=tank;
+    			tank=0;
+    		}
+    	}
+    	return total+tank<0?-1:start;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

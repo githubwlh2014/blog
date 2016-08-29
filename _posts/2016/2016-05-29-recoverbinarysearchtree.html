@@ -1,0 +1,56 @@
+---
+layout: default
+title: (leetcode99)Recover Binary Search Tree
+---
+
+<h2>{{ page.title }}</h2>
+<p>首先中序遍历二叉搜索树，把遍历到的每一节点
+	存储在一个List中，然后在List中找到不
+符合排成排列顺序的两个元素，进行结点值的交换即可</p>
+{% highlight ruby %} 
+    public void isValidBST(TreeNode root,List<TreeNode> list) {
+    	
+        if(root.left!=null)
+        	isValidBST(root.left,list);
+        list.add(root);
+        if(root.right!=null)
+        	isValidBST(root.right,list);
+    }
+	
+    public void recoverTree(TreeNode root) {
+    	if(root==null)
+    		return ;
+        List<TreeNode> list=new ArrayList<TreeNode>();
+        isValidBST(root,list);
+        int i=0;
+        while(i<list.size()-1)
+        {
+        	if(list.get(i).val>list.get(i+1).val)
+        		break;
+        	i++;
+        }
+        int j=i+2;
+        while(j<list.size())
+        {
+        	if(list.get(j).val<list.get(j-1).val)
+        		break;
+        	j++;
+        }
+        if(i>=list.size()-1)
+        	return;
+        if(j>=list.size())
+        {
+        	int tmp=list.get(i).val;
+        	list.get(i).val=list.get(i+1).val;
+        	list.get(i+1).val=tmp;
+        }
+        else
+        {
+            	int tmp=list.get(i).val;
+            	list.get(i).val=list.get(j).val;
+            	list.get(j).val=tmp;
+        }
+                
+    }
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

@@ -1,0 +1,67 @@
+---
+layout: default
+title: (leetcode273)Integer to English Words
+---
+
+<h2>{{ page.title }}</h2>
+<p>从个位向高位走，每三位处理一次，最后对各次结果进行相加（shit一样的代码）</p>
+{% highlight ruby %} 
+public class Solution {
+	String[] twenty={"","One","Two","Three","Four","Five",
+						   "Six","Seven","Eight","Nine","Ten",
+						   "Eleven","Twelve","Thirteen","Fourteen","Fifteen",
+						   "Sixteen","Seventeen","Eighteen","Nineteen","Twenty"};
+	String[] tenOfNum={"","ten","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
+	String[] unit={"","Thousand","Million","Billion"};
+	public String threeToWords(int num,int i){
+		StringBuilder sb=new StringBuilder();
+		if((num/100)!=0)
+		{
+			sb.append(twenty[num/100]);
+			num=num%100;
+			if(num!=0)
+				sb.append(" Hundred ");
+			else
+				sb.append(" Hundred");
+		}
+		if(num<=20)
+		{
+			sb.append(twenty[num]);
+		}
+		else
+		{
+			sb.append(tenOfNum[num/10]);
+			num=num%10;
+			if(num>0)
+			{
+				sb.append(" "+twenty[num]);
+			}
+		}
+		if(i!=0&&!sb.toString().equals(""))
+			sb.append(" "+unit[i]);			
+		return sb.toString();
+	}
+	
+    public String numberToWords(int num) {
+    	if(num==0)
+    		return "Zero";
+    	int i=0,j=3;
+    	String[] str=new String[4];    	
+        while(num!=0)
+        {
+        	str[j--]=threeToWords(num%1000,i++);
+        	num/=1000;
+        }
+        String word="";
+        for(i=0;i<4;i++)
+        {
+        	if(str[i]!=null&&!str[i].equals(""))
+        	{
+        		word=word+" "+str[i];
+        	}
+        }
+        return word.substring(1);
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

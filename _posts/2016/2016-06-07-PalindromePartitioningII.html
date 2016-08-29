@@ -1,0 +1,76 @@
+---
+layout: default
+title: (leetcode132)Palindrome Partitioning II
+---
+
+<h2>{{ page.title }}</h2>
+<p>可以根据动态规划思想用一个二维数组dp[i][j]表示字符串s从i到j的字符是否为回文串，再用一个数组counter[i]表示字符串s中从i到最后一个字符构成的字符串需要的最小划分数，用动态规划可以求得counter[i-1],因此counter[1]即为所求结果</p>
+{% highlight ruby %} 
+public class Solution {
+    public int minCut(String s) {
+    	if(s==null||s.length()<1)
+    		return 0;
+    	
+    	boolean[][] dp=new boolean[s.length()+1][s.length()+1];
+    	for(int i=s.length();i>0;i--)
+    		for(int j=i;j<=s.length();j++)
+    		{
+    			if(i==j)
+    			{
+    				dp[i][j]=true; 
+    				continue;
+    			}
+    			if((dp[i+1][j-1]||(j-i==1))&&s.charAt(i-1)==s.charAt(j-1))
+    				dp[i][j]=true;
+    		}
+    	
+    	int[] counter=new int[s.length()+2];
+    	counter[s.length()+1]=-1;
+    	for(int i=s.length();i>0;i--)
+    	{
+    		int minCut=Integer.MAX_VALUE;
+    		for(int j=i;j<=s.length();j++)
+    		{
+    			if(dp[i][j]&&(1+counter[j+1])<minCut)
+    				minCut=1+counter[j+1];    				
+    		}
+    		counter[i]=minCut;
+    	}
+    	return counter[1];
+    	
+    }
+}
+从上面代码中可以看出上下两个双层循环是一样的，因此，可以将两个双层循环合并为一个。但是不知道什么原因合并后的执行时间在leetcode上不降反升，合并后代码如下：
+public class Solution {
+    public int minCut(String s) {
+    	if(s==null||s.length()<1)
+    		return 0;
+    	
+    	boolean[][] dp=new boolean[s.length()+1][s.length()+1];
+    	int[] counter=new int[s.length()+2];
+    	counter[s.length()+1]=-1;
+    	for(int i=s.length();i>0;i--)
+    	{
+    		int minCut=Integer.MAX_VALUE;
+    		for(int j=i;j<=s.length();j++)
+    		{
+    			if(i==j)
+    			{
+    				dp[i][j]=true; 
+    			}
+    			else if((dp[i+1][j-1]||(j-i==1))&&s.charAt(i-1)==s.charAt(j-1))
+    				dp[i][j]=true;
+    			
+    			if(dp[i][j]&&(1+counter[j+1])<minCut)
+    				minCut=1+counter[j+1];  
+    			
+    		}  
+    		counter[i]=minCut;
+    	}
+
+    	return counter[1];
+    	
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

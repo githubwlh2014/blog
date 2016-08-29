@@ -1,0 +1,46 @@
+---
+layout: default
+title: (leetcode306)Additive Number
+---
+
+<h2>{{ page.title }}</h2>
+<p>没有什么好说的，递归解法</p>
+{% highlight ruby %} 
+public class Solution {
+	boolean isAdditiveNumber=false;
+    public void isAdditiveNumber(String num,int bound,int begin,List<BigInteger> list) {
+    	if(begin==num.length())
+    	{
+    		isAdditiveNumber=true;
+    		return ;
+    	}
+    	
+        for(int i=begin;!isAdditiveNumber&&i<num.length()-bound;i++)
+        {
+        	if(i!=begin&&num.charAt(begin)=='0')
+        		return ;
+        		
+        	list.add(new BigInteger(num.substring(begin,i+1)));
+        	if(bound!=0)
+        		isAdditiveNumber(num,bound-1,i+1,list);
+        	else
+        	{
+        		int size=list.size();
+        		if(list.get(size-3).add(list.get(size-2)).equals(list.get(size-1)))
+        			isAdditiveNumber(num,bound,i+1,list);
+        	}
+        	list.remove(list.size()-1);
+        }
+    }
+    
+    public boolean isAdditiveNumber(String num) {
+    	if(num==null||num.length()<3)
+    		return false;
+        isAdditiveNumber=false;
+        List<BigInteger> list=new ArrayList<BigInteger>();
+        isAdditiveNumber(num,2,0,list);
+        return isAdditiveNumber;
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

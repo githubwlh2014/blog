@@ -1,0 +1,37 @@
+---
+layout: default
+title: (leetcode214)Shortest Palindrome
+---
+
+<h2>{{ page.title }}</h2>
+<p>需要结合KMP算法来做这道题</p>
+{% highlight ruby %} 
+public class Solution {
+    public String shortestPalindrome(String s) {
+    	if(s==null||s.length()<=1)
+    		return s;
+    	//直接查找从0开始的最长回文，发现会超时，然后在网上找到答案，用的是KMP算法的思想
+    	String str=s+"#"+(new StringBuilder(s).reverse());
+    	int[] next=new int[str.length()];
+    	for(int i=1;i<next.length;i++)
+    	{
+
+			int j=next[i-1];
+			while(j!=0)
+			{
+	    		if(str.charAt(i)==str.charAt(j))
+	    		{
+	    			next[i]=j+1;  
+	    			break;
+	    		}
+	    		else
+	    			j=next[j-1];
+			}
+    		if(j==0&&str.charAt(i)==str.charAt(0))
+    			next[i]=1;
+    	}
+        return new StringBuilder(s.substring(next[next.length-1], s.length())).reverse()+s;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

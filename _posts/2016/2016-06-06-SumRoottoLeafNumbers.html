@@ -1,0 +1,32 @@
+---
+layout: default
+title: (leetcode129)Sum Root to Leaf Numbers
+---
+
+<h2>{{ page.title }}</h2>
+<p>递归思想</p>
+{% highlight ruby %} 
+public class Solution {
+	private int totalSum=0;
+    public void sumNumbers(TreeNode root,int sum) {
+    	sum=sum*10+root.val;							//计算访问到当前结点时，由根结点到此结点的路径构成的数值
+        if(root.left==null&&root.right==null)
+        {
+        	totalSum+=sum;
+        }
+        if(root.left!=null)
+        	sumNumbers(root.left,sum);
+        if(root.right!=null)
+        	sumNumbers(root.right,sum);
+    }
+
+    public int sumNumbers(TreeNode root) {
+    	totalSum=0;
+    	if(root==null)
+    		return 0;
+        sumNumbers(root,0);
+        return totalSum;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

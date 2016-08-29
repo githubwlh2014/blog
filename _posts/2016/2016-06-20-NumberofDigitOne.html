@@ -1,0 +1,44 @@
+---
+layout: default
+title: (leetcode233)Number of Digit One
+---
+
+<h2>{{ page.title }}</h2>
+<p>统计从0到所给数字n中1出现的次数，一种解法是剑指Offer上的解法，另外一种是统计个位、十位、……中各个位置上2出现的次数相加</p>
+{% highlight ruby %} 
+public class Solution {
+	private int countOne(long n)
+	{
+		int sum=0;
+		int numberOften=1;
+		for(int i=1;numberOften<n;i++)
+		{
+			sum=sum*10+numberOften;
+			numberOften*=10;
+		}
+		return sum;
+	}
+
+    public int countDigitOne(int m) {
+    	long n=m;
+    	if(n<=0)
+    		return 0;
+    	if(n<=9)
+    		return 1;
+        long preMod=0;
+        long tmp=10;
+        while(n/tmp!=0)
+        {
+        	tmp*=10;
+        }
+        tmp/=10;
+        preMod=n%tmp;
+        n=n/tmp;
+        if(n>1)
+        	return (int)(n*countOne(tmp)+tmp+countDigitOne((int)preMod));
+        else
+        	return (int)(n*countOne(tmp)+preMod+1+countDigitOne((int)preMod));
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

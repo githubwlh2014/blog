@@ -1,0 +1,30 @@
+---
+layout: default
+title: (leetcode187)Repeated DNA Sequences
+---
+
+<h2>{{ page.title }}</h2>
+<p>使用HashMap进行统计</p>
+{% highlight ruby %} 
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        Map<String,Integer> map=new HashMap<>();
+        List<String> list=new ArrayList<>();
+        if(s==null)
+        	return list;
+        for(int i=0;i<=s.length()-10;i++)
+        {
+        	String str=s.substring(i,i+10);
+        	if(map.get(str)==(Integer)1)
+        	{
+        		list.add(str);
+        	}
+        	else if(map.get(str)==null)
+        		map.put(str, 0);
+        	map.put(str, map.get(str)+1);
+        }        
+        return list;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

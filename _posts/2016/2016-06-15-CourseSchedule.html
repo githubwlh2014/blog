@@ -1,0 +1,46 @@
+---
+layout: default
+title: (leetcode207)Course Schedule
+---
+
+<h2>{{ page.title }}</h2>
+<p>题真正的意图是判断有向图是否含有环</p>
+{% highlight ruby %} 
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    	if(numCourses<=1)
+    		return true;
+    	int[][] preBack=new int[numCourses][numCourses];	
+    	int[] inDegree=new int[numCourses];
+    	Deque<Integer> queue=new LinkedList<Integer>();
+    	
+    	for(int i=0;i<prerequisites.length;i++)			//转化为图的邻接表存储形式
+    	{
+    		int pre=prerequisites[i][1];
+    		int back=prerequisites[i][0];
+    		if(preBack[pre][back]==0)
+    			inDegree[back]++;
+    		preBack[pre][back]=1;
+    	}
+    	
+    	for(int i=0;i<numCourses;i++)		//入度为0的结点入队
+    		if(inDegree[i]==0)
+    			queue.offer(i);
+    	int count=0;						//统计完成的结点数量
+    	while(!queue.isEmpty())
+    	{
+    		count++;
+    		int node=queue.poll();
+    		for(int i=0;i<numCourses;i++)
+    			if(preBack[node][i]==1)
+    			{
+    				inDegree[i]--;
+    				if(inDegree[i]==0)
+    					queue.offer(i);
+    			}
+    	}
+    	return count==numCourses;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

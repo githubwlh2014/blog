@@ -1,0 +1,36 @@
+---
+layout: default
+title: (leetcode202)Happy Number
+---
+
+<h2>{{ page.title }}</h2>
+<p>用辅助函数计算一个数各数位平方之和，用map记录循环过程中原数和每一个出现的平方和，当出现重复时或平方和为1时循环结束，可得出计算结果</p>
+{% highlight ruby %} 
+public class Solution {
+	public int sqrtOfNumbers(int n)
+	{
+		int sum=0;
+		while(n!=0)
+		{
+			int number=n%10;
+			sum+=(number*number);
+			n/=10;
+		}
+		return sum;
+	}
+	
+    public boolean isHappy(int n) {
+        Map<Integer,Integer> map=new HashMap<>();
+        while(n!=1&&map.get(n)==null)
+        {
+        	map.put(n, 1);
+        	n=sqrtOfNumbers(n);
+        }
+        if(n==1)
+        	return true;
+        else
+        	return false;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

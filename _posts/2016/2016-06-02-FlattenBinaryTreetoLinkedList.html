@@ -1,0 +1,56 @@
+---
+layout: default
+title: (leetcode114)Flatten Binary Tree to Linked List
+---
+
+<h2>{{ page.title }}</h2>
+<p>此题有两种解法。第一种解法，由于最后节点重组后的顺序为二叉树的先序遍历顺序，
+所以我们可以先先序遍历二叉树，并按序用List存储每一个节点，最后遍历List改变每一节
+点的左节点为空，右节点为下一节点；第二种解法，利用二叉树的先序遍历的顺序的逆序
+是先右节点后左节点的后序遍历的顺序</p>
+{% highlight ruby %} 
+解法一：
+
+public class FlattenBinaryTreetoLinkedList {
+
+    public void flatten(TreeNode root,List<TreeNode> list) {
+        list.add(root);		//先序遍历的每一个结点存入List的
+        if(root.left!=null)
+        	flatten(root.left,list);
+        if(root.right!=null)
+        	flatten(root.right,list);
+    }
+	
+    public void flatten(TreeNode root) {
+        if(root==null)
+        	return ;
+        List<TreeNode> list=new ArrayList<TreeNode>();
+        flatten(root,list);
+        TreeNode pre=new TreeNode(0);
+        for(TreeNode t:list)		//改变链表中的每个节点left与right的值
+        {
+        	t.left=null;		
+        	pre.right=t;
+        	pre=t;
+        }
+        pre.right=null;       
+    }
+}
+
+解法二：
+
+public class FlattenBinaryTreetoLinkedList {
+    private TreeNode prev = null;
+
+    public void flatten(TreeNode root) {
+        if (root == null)
+            return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;		//保留此结点作为下一个结点的后续结点
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

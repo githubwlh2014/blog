@@ -1,0 +1,35 @@
+---
+layout: default
+title: (leetcode221)Maximal Square
+---
+
+<h2>{{ page.title }}</h2>
+<p>动态规划的使用</p>
+{% highlight ruby %} 
+public class Solution {
+	//动态规划的方法去做，每次考虑以一个点为正文形的右下角来找到状态迁移方程
+    public int maximalSquare(char[][] matrix) {
+        if(matrix==null||matrix.length==0||matrix[0].length==0)
+        	return 0;
+    	int[][] nums=new int[matrix.length][matrix[0].length];
+    	for(int i=0;i<matrix.length;i++)
+    		for(int j=0;j<matrix[0].length;j++)
+    		{
+    			if(i==0||j==0)
+    			{
+    				nums[i][j]=matrix[i][j]-'0';
+    				continue;
+    			}
+    			if(matrix[i][j]=='1')
+    				nums[i][j]=Math.min(nums[i-1][j], Math.min(nums[i-1][j-1], nums[i][j-1]))+1;
+    		}
+    	int max=Integer.MIN_VALUE;
+    	for(int i=0;i<nums.length;i++)
+    		for(int j=0;j<nums[0].length;j++)
+    			if(nums[i][j]>max)
+    				max=nums[i][j];
+    	return max*max;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

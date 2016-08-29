@@ -1,0 +1,31 @@
+---
+layout: default
+title: (leetcode122)Best Time to Buy and Sell Stock II
+---
+
+<h2>{{ page.title }}</h2>
+<p>即为求每一个连续递增数组序列最大差值之和</p>
+{% highlight ruby %} 
+public class Solution {
+    public static int maxProfit(int[] prices) {
+        if(prices==null||prices.length<=1)
+        	return 0;
+    	int sumMaxProfit=0;
+    	int maxProfit=0;
+    	for(int i=1;i<prices.length;i++)
+    		if(prices[i]<prices[i-1])
+    		{
+    			sumMaxProfit+=maxProfit;					//统计已访问数组的最大利润
+    			maxProfit=0;
+    			continue;
+    		}
+    		else
+    		{
+    			maxProfit+=(prices[i]-prices[i-1]);			//统计每一个连续递增数组序列最大差值
+    		}
+    	sumMaxProfit+=maxProfit;
+    	return sumMaxProfit;	
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

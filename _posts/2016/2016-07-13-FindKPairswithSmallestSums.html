@@ -1,0 +1,57 @@
+---
+layout: default
+title: (leetcode373)Find K Pairs with Smallest Sums
+---
+
+<h2>{{ page.title }}</h2>
+<p>归并排序的思想</p>
+{% highlight ruby %} 
+public class Solution {
+	static class Pair{
+		int sum;
+		int start;
+		int second;
+		
+		public Pair(int start,int second,int sum){
+			this.start=start;
+			this.second=second;
+			this.sum=sum;
+		}
+
+	}
+	
+	static class Comp implements Comparator<Pair>{
+
+		@Override
+		public int compare(Pair o1, Pair o2) {
+			// TODO Auto-generated method stub
+			return o1.sum>o2.sum?1:(o1.sum<o2.sum?-1:0);
+		}
+		
+	}
+	
+    public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<int[]> list=new ArrayList<>();
+    	if(nums1==null||nums2==null||nums1.length==0||nums2.length==0)
+    		return list;
+        PriorityQueue<Pair> queue=new PriorityQueue<>(16,new Comp());
+        
+    	for(int i=0;i<nums1.length;i++ )
+    		queue.offer(new Pair(i,0,nums1[i]+nums2[0]));
+    	
+    	for(int i=0;i<k&&!queue.isEmpty();i++)
+    	{
+    		Pair pair=queue.poll();
+    		list.add(new int[]{nums1[pair.start],nums2[pair.second]});
+    		if(pair.second<nums2.length-1)
+    		{
+    			pair.second++;
+    			pair.sum=nums1[pair.start]+nums2[pair.second];
+    			queue.offer(pair);
+    		}
+    	}
+    	return list;
+    }
+}
+{% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>

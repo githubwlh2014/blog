@@ -1,0 +1,37 @@
+---
+layout: default
+title: (leetcode199)Binary Tree Right Side View
+---
+
+<h2>{{ page.title }}</h2>
+<p>使用队列层次遍历二叉树，每次记录每层最右边结点</p>
+{% highlight ruby %} 
+public class Solution {
+    public static List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list=new ArrayList<>();
+        if(root==null)
+        	return list;
+        Deque queue=new LinkedList();
+        queue.offer(root);
+        queue.offer("#");
+        
+        while(!(queue.peek() instanceof String))
+        {
+        	TreeNode tmp=null;
+        	while(!(queue.peek() instanceof String))
+        	{
+        		tmp=(TreeNode)queue.poll();
+        		if(tmp.left!=null)
+        			queue.offer(tmp.left);
+        		if(tmp.right!=null)
+        			queue.offer(tmp.right);
+        	}
+        	list.add(tmp.val);
+        	queue.poll();
+        	queue.offer("#");
+        }
+        return list;
+    }
+}
+ {% endhighlight %}
+<p>{{ page.date | date_to_string }}</p>
