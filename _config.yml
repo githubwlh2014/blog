@@ -1,3 +1,7 @@
-baseurl: /blog
+permalink: /:year/:month/:title/
+url: http://geeklu.com
+author: 卢克
 highlighter: rouge
-mardown: redcarpet
+timezone: Asia/Shanghai
+gems: [jekyll-paginate]
+paginate: 24
